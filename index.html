@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candy's Space | 你的日本生活旅遊好夥伴</title>
+  <meta name="description" content="由台日夫妻經營，提供日本旅遊支援、日本商品代購、在日生活協助、日本相關調查等服務。讓你的日本體驗更輕鬆愉快！">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #5BA4B5;
+      --primary-light: #E8F4F8;
+      --primary-dark: #3D8A9C;
+      --accent: #E8735A;
+      --accent-light: #FCEEE9;
+      --text: #2D2D2D;
+      --text-light: #6B6B6B;
+      --bg: #F7FCFF;
+      --white: #FFFFFF;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --transition: all 0.3s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.8;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== Header / Navigation ===== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(247, 252, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      transition: var(--transition);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .nav { display: flex; gap: 32px; align-items: center; }
+
+    .nav a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-light);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav a:hover { color: var(--primary); }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: var(--transition);
+    }
+
+    .nav a:hover::after { width: 100%; }
+
+    .lang-switch {
+      font-size: 0.85rem;
+      padding: 6px 16px;
+      border: 1px solid var(--primary);
+      border-radius: 20px;
+      color: var(--primary);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .lang-switch:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      position: relative;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      position: absolute;
+      left: 4px;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-btn span:nth-child(1) { top: 8px; }
+    .mobile-menu-btn span:nth-child(2) { top: 15px; }
+    .mobile-menu-btn span:nth-child(3) { top: 22px; }
+
+    .mobile-menu-btn.active span:nth-child(1) { top: 15px; transform: rotate(45deg); }
+    .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+    .mobile-menu-btn.active span:nth-child(3) { top: 15px; transform: rotate(-45deg); }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      padding: 140px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .highlight {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 36px;
+      line-height: 1.9;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(91, 164, 181, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(91, 164, 181, 0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      color: var(--text);
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 2px solid rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-image-wrapper {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-image-wrapper img {
+      width: 100%;
+      height: 440px;
+      object-fit: cover;
+    }
+
+    .hero-stat-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-stat-card.card-1 {
+      bottom: -20px;
+      left: -20px;
+    }
+
+    .hero-stat-card.card-2 {
+      top: -15px;
+      right: -15px;
+    }
+
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .stat-icon.teal { background: var(--primary-light); }
+    .stat-icon.coral { background: var(--accent-light); }
+
+    .stat-info .stat-number {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-info .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    /* ===== Section Common ===== */
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== Strengths Section ===== */
+    .strengths {
+      background: var(--white);
+    }
+
+    .strength-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .strength-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .strength-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .strength-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .strength-icon.icon-1 { background: var(--primary-light); }
+    .strength-icon.icon-2 { background: var(--accent-light); }
+    .strength-icon.icon-3 { background: #FFF3E0; }
+
+    .strength-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .strength-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* ===== Services Section ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px;
+      transition: var(--transition);
+      border: 1px solid rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+      transform: scaleY(0);
+      transition: var(--transition);
+    }
+
+    .service-card:hover::before { transform: scaleY(1); }
+
+    .service-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    .service-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .service-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .service-tag {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    /* ===== Flow Section ===== */
+    .flow {
+      background: var(--white);
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+
+    .flow-steps::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary), var(--primary-light));
+    }
+
+    .flow-step {
+      text-align: center;
+      position: relative;
+    }
+
+    .flow-step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 15px rgba(91, 164, 181, 0.3);
+    }
+
+    .flow-step h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .flow-step p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== Instagram Section ===== */
+    .instagram-section {
+      text-align: center;
+    }
+
+    .ig-profile-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px;
+      max-width: 500px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .ig-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #E1306C, #F77737, #FCAF45);
+      padding: 3px;
+      flex-shrink: 0;
+    }
+
+    .ig-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+    }
+
+    .ig-info { text-align: left; }
+
+    .ig-info h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .ig-info p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+
+    .ig-follow-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #E1306C, #F77737);
+      color: white;
+      padding: 8px 24px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .ig-follow-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
+    }
+
+    /* ===== Contact Section ===== */
+    .contact {
+      background: var(--white);
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .contact-info p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-bottom: 32px;
+      line-height: 1.8;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .contact-detail-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-form {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 40px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .form-group label .required {
+      color: var(--accent);
+      margin-left: 4px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: var(--white);
+      transition: var(--transition);
+      color: var(--text);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(91, 164, 181, 0.1);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(91, 164, 181, 0.4);
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      padding: 48px 0;
+      text-align: center;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover { color: var(--primary); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 120px 0 60px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-visual { order: -1; }
+      .hero-image-wrapper img { height: 300px; }
+      .strength-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .flow-steps { grid-template-columns: repeat(2, 1fr); }
+      .flow-steps::before { display: none; }
+      .contact-inner { grid-template-columns: 1fr; }
+
+      .nav { display: none; }
+      .nav.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        padding: 24px;
+        gap: 20px;
+        box-shadow: var(--shadow);
+      }
+      .mobile-menu-btn { display: block; }
+
+      .hero-stat-card.card-1 { bottom: -10px; left: -5px; }
+      .hero-stat-card.card-2 { top: -10px; right: -5px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.7rem; }
+      .section { padding: 60px 0; }
+      .section-title { font-size: 1.6rem; }
+      .hero-cta { flex-direction: column; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      .flow-steps { grid-template-columns: 1fr; }
+      .ig-profile-card { flex-direction: column; text-align: center; }
+      .ig-info { text-align: center; }
+      .contact-form { padding: 24px; }
+    }
+
+    /* ===== Animations ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">C</span>
+        Candy's Space
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#strengths">關於我們</a>
+        <a href="#services">服務內容</a>
+        <a href="#flow">服務流程</a>
+        <a href="#instagram">Instagram</a>
+        <a href="#contact">聯絡我們</a>
+        <a href="ja.html" class="lang-switch">日本語</a>
+      </nav>
+      <button class="mobile-menu-btn" id="menuBtn" aria-label="開啟選單">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">台日夫妻的日本情報站</div>
+        <h1>
+          你的日本生活<br>
+          <span class="highlight">旅遊好夥伴</span>
+        </h1>
+        <p>
+          我們是一對台日夫妻，住在日本的我們，深刻了解台灣人對日本的喜愛與需求。
+          無論是旅遊規劃、商品代購、還是在日生活支援，讓我們成為你最可靠的橋樑。
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn-primary">免費諮詢 &#8594;</a>
+          <a href="#services" class="btn-secondary">了解服務</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&q=80" alt="日本的美麗風景 - 富士山與櫻花" loading="lazy">
+        </div>
+        <div class="hero-stat-card card-1">
+          <div class="stat-icon teal">&#127983;</div>
+          <div class="stat-info">
+            <div class="stat-number">住在日本</div>
+            <div class="stat-label">在地的真實資訊</div>
+          </div>
+        </div>
+        <div class="hero-stat-card card-2">
+          <div class="stat-icon coral">&#128150;</div>
+          <div class="stat-info">
+            <div class="stat-number">台日夫妻</div>
+            <div class="stat-label">雙語溝通無障礙</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strengths -->
+  <section class="section strengths" id="strengths">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Why Us</span>
+        <h2 class="section-title">為什麼選擇我們？</h2>
+        <p class="section-desc">台日夫妻的獨特優勢，讓你的日本體驗更加輕鬆、安心、愉快。</p>
+      </div>
+      <div class="strength-grid">
+        <div class="strength-card fade-in">
+          <div class="strength-icon icon-1">&#128107;</div>
+          <h3>台日夫妻經營</h3>
+          <p>台灣太太與日本先生共同經營，完全理解台灣人的需求與日本的文化。雙語溝通零障礙，讓你安心託付。</p>
+        </div>
+        <div class="strength-card fade-in">
+          <div class="strength-icon icon-2">&#127983;</div>
+          <h3>在地真實資訊</h3>
+          <p>住在日本的我們，提供的不是網路上的二手資訊，而是親身體驗過的真實推薦與最新情報。</p>
+        </div>
+        <div class="strength-card fade-in">
+          <div class="strength-icon icon-3">&#128200;</div>
+          <h3>Instagram人氣帳號</h3>
+          <p>我們的Instagram帳號專門分享日本的魅力，獲得眾多台灣粉絲的喜愛與信賴，多篇貼文獲得熱烈迴響。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Services</span>
+        <h2 class="section-title">服務內容</h2>
+        <p class="section-desc">從旅遊到生活，從購物到調查，我們是你在日本的全方位好幫手。</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card fade-in">
+          <div class="service-number">SERVICE 01</div>
+          <h3>日本旅遊支援</h3>
+          <p>不只是觀光指南，而是根據你的喜好量身打造的旅遊規劃。從行程安排、餐廳預約到交通指引，讓你的日本旅行更加順暢。</p>
+          <div class="service-tags">
+            <span class="service-tag">行程規劃</span>
+            <span class="service-tag">餐廳預約</span>
+            <span class="service-tag">交通指引</span>
+            <span class="service-tag">在地推薦</span>
+          </div>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-number">SERVICE 02</div>
+          <h3>日本商品代購</h3>
+          <p>想要日本限定商品、藥妝、零食、動漫周邊？我們幫你在日本當地購買，確保正品，安心寄送到台灣。</p>
+          <div class="service-tags">
+            <span class="service-tag">限定商品</span>
+            <span class="service-tag">藥妝美妝</span>
+            <span class="service-tag">動漫周邊</span>
+            <span class="service-tag">國際配送</span>
+          </div>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-number">SERVICE 03</div>
+          <h3>在日生活支援</h3>
+          <p>計劃到日本留學、工作或定居？從找房子、行政手續到日常生活大小事，有台灣太太的經驗分享，讓你的日本生活更順利。</p>
+          <div class="service-tags">
+            <span class="service-tag">租屋協助</span>
+            <span class="service-tag">行政手續</span>
+            <span class="service-tag">生活指南</span>
+            <span class="service-tag">經驗分享</span>
+          </div>
+        </div>
+        <div class="service-card fade-in">
+          <div class="service-number">SERVICE 04</div>
+          <h3>日本相關調查</h3>
+          <p>想了解某個日本商品？想找特定的店家？需要不動產或生活相關資訊？我們幫你實地調查，提供最真實的第一手資料。</p>
+          <div class="service-tags">
+            <span class="service-tag">商品調查</span>
+            <span class="service-tag">店家調查</span>
+            <span class="service-tag">不動產資訊</span>
+            <span class="service-tag">活動情報</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flow -->
+  <section class="section flow" id="flow">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Flow</span>
+        <h2 class="section-title">服務流程</h2>
+        <p class="section-desc">簡單四步驟，讓我們開始幫助你！</p>
+      </div>
+      <div class="flow-steps fade-in">
+        <div class="flow-step">
+          <div class="flow-step-number">1</div>
+          <h4>聯絡我們</h4>
+          <p>透過表單或Instagram私訊，告訴我們你的需求。</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-number">2</div>
+          <h4>需求確認</h4>
+          <p>我們會詳細了解你的需求，提供最適合的方案。</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-number">3</div>
+          <h4>報價確認</h4>
+          <p>提供明確的報價與服務內容，確認後即開始服務。</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-number">4</div>
+          <h4>開始服務</h4>
+          <p>確認後立即為你服務，過程中隨時保持聯繫。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instagram -->
+  <section class="section instagram-section" id="instagram">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Instagram</span>
+        <h2 class="section-title">追蹤我們的Instagram</h2>
+        <p class="section-desc">每天分享日本的美食、景點、好物與生活日常，一起發現日本的魅力吧！</p>
+      </div>
+      <div class="ig-profile-card fade-in">
+        <div class="ig-avatar">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" alt="Candy's Space 大頭照" loading="lazy">
+        </div>
+        <div class="ig-info">
+          <h4>@candys__space</h4>
+          <p>台日夫妻的日本情報站</p>
+          <a href="https://www.instagram.com/candys__space/" target="_blank" rel="noopener noreferrer" class="ig-follow-btn">
+            追蹤 Instagram &#8594;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Contact</span>
+        <h2 class="section-title">聯絡我們</h2>
+        <p class="section-desc">有任何關於日本的問題或需求，歡迎隨時與我們聯繫！</p>
+      </div>
+      <div class="contact-inner fade-in">
+        <div class="contact-info">
+          <h3>讓我們成為你的日本幫手</h3>
+          <p>
+            不管是第一次去日本旅行，還是計劃在日本長期生活，<br>
+            我們都能給你最實用、最貼心的協助。<br>
+            歡迎用中文或日文跟我們聊聊！
+          </p>
+          <div class="contact-details">
+            <div class="contact-detail-item">
+              <div class="contact-detail-icon">&#9993;</div>
+              <span>24小時表單受理中</span>
+            </div>
+            <div class="contact-detail-item">
+              <div class="contact-detail-icon">&#128337;</div>
+              <span>通常1~2個工作天內回覆</span>
+            </div>
+            <div class="contact-detail-item">
+              <div class="contact-detail-icon">&#128172;</div>
+              <span>中文、日文皆可溝通</span>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>姓名 <span class="required">*</span></label>
+            <input type="text" name="name" required placeholder="例：王小明">
+          </div>
+          <div class="form-group">
+            <label>電子信箱 <span class="required">*</span></label>
+            <input type="email" name="email" required placeholder="例：example@mail.com">
+          </div>
+          <div class="form-group">
+            <label>想諮詢的服務 <span class="required">*</span></label>
+            <select name="service" required>
+              <option value="">請選擇</option>
+              <option value="travel">日本旅遊支援</option>
+              <option value="shopping">日本商品代購</option>
+              <option value="living">在日生活支援</option>
+              <option value="research">日本相關調查</option>
+              <option value="other">其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>訊息內容</label>
+            <textarea name="message" placeholder="請告訴我們你的需求，我們會盡快回覆你！"></textarea>
+          </div>
+          <button type="submit" class="form-submit">送出諮詢</button>
+          <p class="form-note">※ 您提供的資料僅用於回覆諮詢，不會用於其他用途。</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#strengths">關於我們</a>
+        <a href="#services">服務內容</a>
+        <a href="#flow">服務流程</a>
+        <a href="#contact">聯絡我們</a>
+        <a href="ja.html">日本語版</a>
+        <a href="https://www.instagram.com/candys__space/" target="_blank" rel="noopener noreferrer">Instagram</a>
+      </div>
+      <p class="footer-copy">&copy; 2025 Candy's Space. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const nav = document.getElementById('nav');
+    menuBtn.addEventListener('click', () => {
+      menuBtn.classList.toggle('active');
+      nav.classList.toggle('active');
+    });
+
+    // Close menu on link click
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuBtn.classList.remove('active');
+        nav.classList.remove('active');
+      });
+    });
+
+    // Scroll animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Form submission
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const entries = Object.fromEntries(data.entries());
+
+      alert('感謝您的諮詢！\n我們會在1~2個工作天內回覆您。');
+      form.reset();
+    }
+
+    // Header scroll effect
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('.header');
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > 100) {
+        header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+      } else {
+        header.style.boxShadow = 'none';
+      }
+      lastScroll = currentScroll;
+    });
+  </script>
+</body>
+</html>

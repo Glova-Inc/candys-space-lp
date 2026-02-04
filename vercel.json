@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": ".",
+  "framework": null,
+  "rewrites": [
+    { "source": "/tw", "destination": "/tw.html" },
+    { "source": "/", "destination": "/index.html" }
+  ]
+}
