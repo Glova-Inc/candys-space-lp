@@ -1,0 +1,156 @@
+name: Sync Project Status
+
+# プロジェクトV2のアイテム変更イベントで発火
+on:
+  issues:
+    types: [opened, closed, reopened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Issue number to sync'
+        required: true
+        type: number
+
+env:
+  # Personal project (mrshucho/All Projects Kanban)
+  PERSONAL_PROJECT_ID: "PVT_kwHOAEnNQs4BPY4k"
+  PERSONAL_STATUS_FIELD_ID: "PVTSSF_lAHOAEnNQs4BPY4kzg9z7hg"
+  # Org project (Glova-Inc Kanban)
+  ORG_PROJECT_ID: "PVT_kwDOD5zPT84BPY5M"
+  ORG_STATUS_FIELD_ID: "PVTSSF_lADOD5zPT84BPY5Mzg9z79E"
+  # Status option IDs (shared across both projects)
+  STATUS_TODO: "f75ad846"
+  STATUS_IN_PROGRESS: "47fc9ee4"
+  STATUS_DONE: "98236657"
+
+jobs:
+  sync-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine target status
+        id: status
+        run: |
+          EVENT="${{ github.event_name }}"
+          ACTION="${{ github.event.action }}"
+
+          if [ "$EVENT" = "issues" ]; then
+            if [ "$ACTION" = "closed" ]; then
+              echo "status_id=${{ env.STATUS_DONE }}" >> $GITHUB_OUTPUT
+              echo "status_name=Done" >> $GITHUB_OUTPUT
+            elif [ "$ACTION" = "reopened" ]; then
+              echo "status_id=${{ env.STATUS_TODO }}" >> $GITHUB_OUTPUT
+              echo "status_name=Todo" >> $GITHUB_OUTPUT
+            elif [ "$ACTION" = "opened" ]; then
+              echo "status_id=${{ env.STATUS_TODO }}" >> $GITHUB_OUTPUT
+              echo "status_name=Todo" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Get issue node ID
+        id: issue
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_SYNC_PAT }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ISSUE_NUM=${{ github.event.inputs.issue_number }}
+          else
+            ISSUE_NUM=${{ github.event.issue.number }}
+          fi
+
+          ISSUE_NODE_ID=$(gh api graphql -f query='
+            query($owner: String!, $repo: String!, $number: Int!) {
+              repository(owner: $owner, name: $repo) {
+                issue(number: $number) {
+                  id
+                }
+              }
+            }' -f owner="${{ github.repository_owner }}" \
+               -f repo="${{ github.event.repository.name }}" \
+               -F number=$ISSUE_NUM --jq '.data.repository.issue.id')
+
+          echo "node_id=$ISSUE_NODE_ID" >> $GITHUB_OUTPUT
+          echo "Issue node ID: $ISSUE_NODE_ID"
+
+      - name: Sync Personal Project status
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_SYNC_PAT }}
+        run: |
+          # Find item in personal project
+          ITEM_ID=$(gh api graphql -f query='
+            query($projectId: ID!, $cursor: String) {
+              node(id: $projectId) {
+                ... on ProjectV2 {
+                  items(first: 100, after: $cursor) {
+                    nodes {
+                      id
+                      content {
+                        ... on Issue { id }
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f projectId="${{ env.PERSONAL_PROJECT_ID }}" \
+            --jq ".data.node.items.nodes[] | select(.content.id == \"${{ steps.issue.outputs.node_id }}\") | .id")
+
+          if [ -n "$ITEM_ID" ]; then
+            gh api graphql -f query='
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId
+                  itemId: $itemId
+                  fieldId: $fieldId
+                  value: { singleSelectOptionId: $value }
+                }) {
+                  projectV2Item { id }
+                }
+              }' -f projectId="${{ env.PERSONAL_PROJECT_ID }}" \
+                 -f itemId="$ITEM_ID" \
+                 -f fieldId="${{ env.PERSONAL_STATUS_FIELD_ID }}" \
+                 -f value="${{ steps.status.outputs.status_id }}"
+            echo "✅ Personal project updated to ${{ steps.status.outputs.status_name }}"
+          else
+            echo "⚠️ Issue not found in personal project"
+          fi
+
+      - name: Sync Org Project status
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_SYNC_PAT }}
+        run: |
+          # Find item in org project
+          ITEM_ID=$(gh api graphql -f query='
+            query($projectId: ID!, $cursor: String) {
+              node(id: $projectId) {
+                ... on ProjectV2 {
+                  items(first: 100, after: $cursor) {
+                    nodes {
+                      id
+                      content {
+                        ... on Issue { id }
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f projectId="${{ env.ORG_PROJECT_ID }}" \
+            --jq ".data.node.items.nodes[] | select(.content.id == \"${{ steps.issue.outputs.node_id }}\") | .id")
+
+          if [ -n "$ITEM_ID" ]; then
+            gh api graphql -f query='
+              mutation($projectId: ID!, $itemId: ID!, $fieldId: ID!, $value: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: $projectId
+                  itemId: $itemId
+                  fieldId: $fieldId
+                  value: { singleSelectOptionId: $value }
+                }) {
+                  projectV2Item { id }
+                }
+              }' -f projectId="${{ env.ORG_PROJECT_ID }}" \
+                 -f itemId="$ITEM_ID" \
+                 -f fieldId="${{ env.ORG_STATUS_FIELD_ID }}" \
+                 -f value="${{ steps.status.outputs.status_id }}"
+            echo "✅ Org project updated to ${{ steps.status.outputs.status_name }}"
+          else
+            echo "⚠️ Issue not found in org project"
+          fi
